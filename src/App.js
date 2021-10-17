@@ -1,6 +1,9 @@
 import React from "react";
-import DynamicRemoteContainer from "./hooks/DynamicRemoteContainer";
+// Can consume the modules also from a dynamic remote container
+// import DynamicRemoteContainer from "./hooks/DynamicRemoteContainer";
 import AppWrapper from "./App.styles";
+const RemoteProfileOne = React.lazy(() => import("DevProfileOne/Profile"));
+const RemoteProfileTwo = React.lazy(() => import("DevProfileTwo/Profile"));
 
 const App = () => (
   <AppWrapper>
@@ -8,7 +11,14 @@ const App = () => (
     <h3>Built With Micro Frontends</h3>
     <hr />
     <div className="profile-container">
-      <DynamicRemoteContainer
+      <React.Suspense fallback="Loading Profile One">
+        <RemoteProfileOne />
+      </React.Suspense>
+      <React.Suspense fallback="Loading Profile Two">
+        <RemoteProfileTwo />
+      </React.Suspense>
+
+      {/* <DynamicRemoteContainer
         componentProps={{}}
         url="http://localhost:3003/remoteEntry.js"
         scope="DevProfileOne"
@@ -19,7 +29,7 @@ const App = () => (
         url="http://localhost:3001/remoteEntry.js"
         scope="DevProfileTwo"
         module="./Profile"
-      />
+      /> */}
     </div>
   </AppWrapper>
 );

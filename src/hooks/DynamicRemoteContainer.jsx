@@ -57,6 +57,7 @@ const DynamicRemoteContainer = ({ url, scope, module, componentProps }) => {
       new Promise((resolve) => {
         const moduleResolve = resolve;
         const react = require("react");
+        const reactDom = require("react-dom");
         const styledComponents = require("styled-components");
         const legacyShareScope = {
           react: {
@@ -66,7 +67,14 @@ const DynamicRemoteContainer = ({ url, scope, module, componentProps }) => {
               from: "webpack4",
             },
           },
-          styledComponents: {
+          "react-dom": {
+            [reactDom.version]: {
+              get: () => new Promise((resolve) => resolve(() => reactDom)),
+              loaded: true,
+              from: "webpack4",
+            },
+          },
+          "styled-components": {
             [styledComponents.version]: {
               get: () =>
                 new Promise((resolve) => resolve(() => styledComponents)),
